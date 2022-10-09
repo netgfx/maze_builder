@@ -14,7 +14,7 @@ and the Flutter guide for
 Maze builder using a Dart implementation of Eller's Algorithm, as described here: http://www.neocomputer.org/projects/eller.html
 
 This algorithm creates 'perfect' mazes, which guarantees a single path between any two cells, such as:
-
+```
 +---+---+---+---+---+---+---+
 |           |           |   |
 +---+   +---+   +   +   +   +
@@ -30,7 +30,7 @@ This algorithm creates 'perfect' mazes, which guarantees a single path between a
 +   +   +   +   +---+   +   +
 |                       |   |
 +---+---+---+---+---+---+---+
-
+```
 
 This library generates a two-dimensional array of maze cells, each with the following properties:
 
