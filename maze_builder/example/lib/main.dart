@@ -62,7 +62,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       _controller.repeat();
@@ -81,7 +82,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     int size = 24;
     Random rand = Random();
     //final stopwatch = Stopwatch()..start();
-    List<List<Cell>> localMaze = generate(width: size, height: size, closed: true, seed: rand.nextInt(100000));
+    List<List<Cell>> localMaze = generate(
+        width: size, height: size, closed: true, seed: rand.nextInt(100000));
 
     setState(() {
       maze = localMaze;
@@ -109,7 +111,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           padding: const EdgeInsets.all(8.0),
           child: Container(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(50.0), color: const ui.Color.fromARGB(255, 0, 0, 0)),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50.0),
+                  color: const ui.Color.fromARGB(255, 0, 0, 0)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -123,7 +127,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 ),
               )),
         ),
-        body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        body: LayoutBuilder(builder:
+            (BuildContext context, BoxConstraints viewportConstraints) {
           this.viewportConstraints = viewportConstraints;
           return Stack(children: [
             Transform.translate(
@@ -142,7 +147,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   width: viewportConstraints.maxWidth,
                   height: viewportConstraints.maxHeight,
                 ),
-                child: Container(constraints: BoxConstraints(maxWidth: viewportConstraints.maxWidth, maxHeight: viewportConstraints.maxHeight)),
+                child: Container(
+                    constraints: BoxConstraints(
+                        maxWidth: viewportConstraints.maxWidth,
+                        maxHeight: viewportConstraints.maxHeight)),
               )),
             ),
             Positioned(

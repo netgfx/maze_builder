@@ -28,7 +28,8 @@ class MazeDriverCanvas extends CustomPainter {
   Function? update;
   Paint _paint = Paint();
   int blockSize = 8;
-  BoxConstraints sceneSize = const BoxConstraints(minWidth: 800, maxWidth: 1600, minHeight: 450, maxHeight: 900);
+  BoxConstraints sceneSize = const BoxConstraints(
+      minWidth: 800, maxWidth: 1600, minHeight: 450, maxHeight: 900);
   ui.BlendMode? blendMode = ui.BlendMode.src;
 
   bool maxRightReached = false;

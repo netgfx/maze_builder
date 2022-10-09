@@ -104,7 +104,8 @@ class MazeDrawer {
   }
 
   // DRAW LINE ///////////////////////////////
-  void drawLine(double x, double y, double targetX, double targetY, Paint paint) {
+  void drawLine(
+      double x, double y, double targetX, double targetY, Paint paint) {
     //Rect bounds = _camera!.getCameraBounds();
 
     updateCanvas(_bounds.left * -1, _bounds.top, () {
@@ -142,7 +143,8 @@ class MazeDrawer {
     }
   }
 
-  void updateCanvas(double? x, double? y, VoidCallback callback, {bool translate = false}) {
+  void updateCanvas(double? x, double? y, VoidCallback callback,
+      {bool translate = false}) {
     double localX = x ?? 0;
     double localY = y ?? 0;
     canvas!.save();

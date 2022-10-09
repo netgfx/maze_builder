@@ -1,6 +1,6 @@
 name: maze_builder
-description: A Flutter & Dart Maze builder
-version: 1.0.0
+description: Maze builder using a Dart implementation of Eller's Algorithm. This algorithm creates 'perfect' mazes, which guarantees a single path between any two cells.
+version: 1.0.1
 homepage: https://github.com/netgfx/maze_builder
 
 environment:

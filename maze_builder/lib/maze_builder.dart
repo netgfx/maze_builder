@@ -7,6 +7,7 @@ class Cell {
   bool bottom;
   double? set;
 
+  /// The cell model class
   Cell({
     required this.x,
     required this.y,
@@ -54,10 +55,12 @@ class Cell {
   }
 }
 
+/// [internal function] make a list based on a predicate
 List<dynamic> compact(List<dynamic> array) {
   return array.where((u) => u != 0.0).toList();
 }
 
+/// [internal function] difference between two lists
 List<dynamic> difference(List<dynamic> c, List<dynamic> d) {
   return [c, d].reduce((a, b) => c.toSet().difference(b.toSet()).toList());
 }
@@ -88,6 +91,7 @@ Map<int, List<dynamic>> oldgroupBy(List<Cell> list, String key) {
   return dict;
 }
 
+/// [internal function] group iterables by predicate
 Map<T, List<S>> groupBy<S, T>(Iterable<S> values, T Function(S) key) {
   var map = <T, List<S>>{};
   for (var element in values) {
@@ -96,20 +100,27 @@ Map<T, List<S>> groupBy<S, T>(Iterable<S> values, T Function(S) key) {
   return map;
 }
 
+/// [internal function] get the last element of a list
 last(List<dynamic> array) {
   return array[array.length - 1];
 }
 
+/// [internal function] make a list based on predicate
 Iterable range(double n, {int end = 0}) {
   return end != 0
-      ? List.from(List.generate(end - n.round(), (int index) => index, growable: true)).map((k) => k + n)
-      : List.from(List.generate(n.round(), (int index) => index, growable: true));
+      ? List.from(List.generate(end - n.round(), (int index) => index,
+              growable: true))
+          .map((k) => k + n)
+      : List.from(
+          List.generate(n.round(), (int index) => index, growable: true));
 }
 
+/// [internal function] return a duplicate free list
 List<dynamic> uniq(List<dynamic> array) {
   return [...new Set.from(array)];
 }
 
+/// [internal function] return a list with random elements
 List<dynamic> sampleSize(List<dynamic>? array, double? n, Function random) {
   n = n ?? 1;
   double length = (array == null) ? 0.0 : array.length.toDouble();
@@ -132,6 +143,7 @@ List<dynamic> sampleSize(List<dynamic>? array, double? n, Function random) {
   return result.sublist(0, n.round());
 }
 
+/// [internal function] randomization engine
 Function mulberry32(int seed) {
   return () {
     seed += 0x6D2B79F5;
@@ -144,6 +156,7 @@ Function mulberry32(int seed) {
   };
 }
 
+/// [internal function] imul2 implementation in Dart
 int imul2(int a, int b) {
   int aHi = (a >> 16) & 0xffff;
   int aLo = a & 0xffff;
@@ -154,6 +167,7 @@ int imul2(int a, int b) {
   return ((aLo * bLo) + (((aHi * bLo + aLo * bHi) << 16) >> 0)).toSigned(32);
 }
 
+/// [internal function] merge a list with another
 List<Cell> mergeSetWith(List<Cell> row, double oldSet, double newSet) {
   row.forEach((box) {
     if (box.set == oldSet) box.set = newSet;
@@ -162,6 +176,7 @@ List<Cell> mergeSetWith(List<Cell> row, double oldSet, double newSet) {
   return row;
 }
 
+/// [internal function] add missing set to list
 List<Cell> populateMissingSets(List<Cell> row, Function random) {
   var _map = row.map((row) => row.set).toList();
   List<dynamic> _uniq = uniq(_map);
@@ -178,7 +193,9 @@ List<Cell> populateMissingSets(List<Cell> row, Function random) {
   return row;
 }
 
-List<Cell> mergeRandomSetsIn(List<Cell> row, Function random, {probability = 0.5}) {
+/// [internal function] merge randomized sets into a new list
+List<Cell> mergeRandomSetsIn(List<Cell> row, Function random,
+    {probability = 0.5}) {
   // Randomly merge some disjoint sets
 
   var allBoxesButLast = initial(row);
@@ -202,6 +219,7 @@ List<Cell> mergeRandomSetsIn(List<Cell> row, Function random, {probability = 0.5
   return allBoxesButLast as List<Cell>;
 }
 
+/// [internal function] randomly add an exit to each set
 addSetExits(List<Cell> row, List<Cell> nextRow, Function random) {
   // Randomly add bottom exit for each set
   List<dynamic> setsInRow = [];
@@ -211,7 +229,8 @@ addSetExits(List<Cell> row, List<Cell> nextRow, Function random) {
   });
 
   setsInRow.forEach((set) {
-    List<dynamic> exits = sampleSize(set, (random() * set.length).ceil().toDouble(), random);
+    List<dynamic> exits =
+        sampleSize(set, (random() * set.length).ceil().toDouble(), random);
     exits.forEach((exit) {
       //if (exit) {
       Cell below = nextRow[exit.x.round()];
@@ -225,12 +244,12 @@ addSetExits(List<Cell> row, List<Cell> nextRow, Function random) {
   return setsInRow;
 }
 
-List<List<Cell>> generate({int width = 8, int height = 0, closed = true, seed = 1}) {
+/// Generate a maze (List of List of Cell objects)
+List<List<Cell>> generate(
+    {int width = 8, int height = 0, closed = true, seed = 1}) {
   height = width;
 
   Function random = mulberry32(seed);
-  //() => rand.nextDouble(); //mulberry32(seed);
-  //print("${random()}, ${random()}, ${random()}");
   List<List<Cell>> maze = [];
   var r = range(width.toDouble());
 
@@ -253,7 +272,6 @@ List<List<Cell>> generate({int width = 8, int height = 0, closed = true, seed = 
   // All rows except last:
   initial(maze).asMap().forEach((y, row) {
     row = populateMissingSets(row, random);
-    //print(row.toList());
     row = mergeRandomSetsIn(row, random);
     addSetExits(row, maze[y + 1], random);
   });
